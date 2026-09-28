@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - testCacheEvictWorkflow()</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<div class="breadcrumbs">
+<a class="breadcrumb" href="../index.html">all</a> &gt; 
+<a class="breadcrumb" href="index.html">com.grabfood.menu.MenuCacheEvictTest</a> &gt; 
+<span class="breadcrumb">testCacheEvictWorkflow()</span>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="successGroup" href="#">Gradle Test Run :test</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Gradle Test Run :test</h2>
+<h1>Kiểm tra toàn bộ quy trình: Đọc ban đầu -&gt; Nạp Cache -&gt; Cập nhật DB -&gt; @CacheEvict xóa cache -&gt; Đọc lại ra giá mới</h1>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="" href="#">summary</a>
+</li>
+<li>
+<a class="" href="#">standard output</a>
+</li>
+<li>
+<a class="" href="#">error output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>summary</h2>
+<div>
+<div class="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">0</div>
+<p>skipped</p>
+</div>
+</td>
+<td>
+<div class="infoBox duration">
+<div class="counter">1.381s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="tab">
+<h2>standard output</h2>
+<span class="code">
+<pre id="root-0-test-stdout-testCacheEvictWorkflow()">2026-09-27T18:59:34.326+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:34.327+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 1] Nhận yêu cầu cập nhật món ăn id: 1
+2026-09-27T18:59:34.327+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 2] Đang cập nhật vào DATABASE trước...
+2026-09-27T18:59:34.391+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+2026-09-27T18:59:34.410+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 2 - XONG] Đã lưu vào CSDL thành công: Tên = 'Phở Bò', Giá = 55000
+2026-09-27T18:59:34.410+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 3] @CacheEvict kích hoạt: Xóa key 'menuCache::1' khỏi Redis
+2026-09-27T18:59:34.410+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:35.021+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [DATABASE QUERY] Đang truy vấn CSDL lấy thông tin món ăn id: 1
+2026-09-27T18:59:35.025+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+&gt;&gt;&gt; [TRƯỚC KHI UPDATE] Cache trong Redis: {&quot;@class&quot;:&quot;com.grabfood.menu.entity.Menu&quot;,&quot;id&quot;:1,&quot;price&quot;:[&quot;java.math.BigDecimal&quot;,55000.00],&quot;dish_name&quot;:&quot;Phở Bò&quot;}
+2026-09-27T18:59:35.090+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:35.091+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 1] Nhận yêu cầu cập nhật món ăn id: 1
+2026-09-27T18:59:35.091+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 2] Đang cập nhật vào DATABASE trước...
+2026-09-27T18:59:35.091+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+2026-09-27T18:59:35.092+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 2 - XONG] Đã lưu vào CSDL thành công: Tên = 'Phở Bò Đặc Biệt', Giá = 75000
+2026-09-27T18:59:35.093+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [BƯỚC 3] @CacheEvict kích hoạt: Xóa key 'menuCache::1' khỏi Redis
+2026-09-27T18:59:35.093+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:35.109+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    update
+        menus 
+    set
+        dish_name=?,
+        price=? 
+    where
+        id=?
+Hibernate: 
+    update
+        menus 
+    set
+        dish_name=?,
+        price=? 
+    where
+        id=?
+&gt;&gt;&gt; [SAU KHI UPDATE] Cache trong Redis: null (ĐÃ BỊ XÓA THÀNH CÔNG)
+2026-09-27T18:59:35.119+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : &gt;&gt;&gt; [DATABASE QUERY] Đang truy vấn CSDL lấy thông tin món ăn id: 1
+2026-09-27T18:59:35.119+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+&gt;&gt;&gt; [NẠP LẠI CACHE] Cache mới trong Redis: {&quot;@class&quot;:&quot;com.grabfood.menu.entity.Menu&quot;,&quot;id&quot;:1,&quot;price&quot;:[&quot;java.math.BigDecimal&quot;,75000.00],&quot;dish_name&quot;:&quot;Phở Bò Đặc Biệt&quot;}
+</pre>
+<button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-testCacheEvictWorkflow()">Copy</button>
+</span>
+</div>
+<div class="tab">
+<h2>error output</h2>
+<span class="code">
+<pre id="root-0-test-stderr-testCacheEvictWorkflow()">WARNING: A Java agent has been loaded dynamically (C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.14.19\154da3a65b4f4a909d3e5bdec55d1b2b4cbb6ce1\byte-buddy-agent-1.14.19.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+</pre>
+<button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stderr-testCacheEvictWorkflow()">Copy</button>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 9.7.1</a> at Sep 27, 2026, 6:59:35 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS menus (
+    id BIGINT PRIMARY KEY,
+    dish_name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL
+);

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.grabfood.menu.MenuCacheEvictTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-09-27T11:59:27.441Z" hostname="BON" time="7.706">
+  <properties/>
+  <testcase name="Kiểm tra toàn bộ quy trình: Đọc ban đầu -&gt; Nạp Cache -&gt; Cập nhật DB -&gt; @CacheEvict xóa cache -&gt; Đọc lại ra giá mới" classname="com.grabfood.menu.MenuCacheEvictTest" time="1.381"/>
+  <system-out><![CDATA[18:59:27.634 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.grabfood.menu.MenuCacheEvictTest]: MenuCacheEvictTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:59:27.753 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.grabfood.menu.MenuApplication for test class com.grabfood.menu.MenuCacheEvictTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.4)
+
+2026-09-27T18:59:28.371+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.MenuCacheEvictTest     : Starting MenuCacheEvictTest using Java 21.0.6 with PID 4084 (started by Admin in D:\[IT-214] Microservices System Design\Ss17\3)
+2026-09-27T18:59:28.372+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.MenuCacheEvictTest     : Running with Spring Boot v3.3.4, Spring v6.1.13
+2026-09-27T18:59:28.373+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.MenuCacheEvictTest     : No active profile set, falling back to 1 default profile: "default"
+2026-09-27T18:59:29.300+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-27T18:59:29.302+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-27T18:59:29.466+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 154 ms. Found 1 JPA repository interface.
+2026-09-27T18:59:29.490+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-27T18:59:29.496+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-27T18:59:29.518+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.grabfood.menu.repository.MenuRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-09-27T18:59:29.519+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2026-09-27T18:59:30.030+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-27T18:59:30.280+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:grabfood_menudb user=SA
+2026-09-27T18:59:30.283+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-27T18:59:30.472+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-27T18:59:30.569+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-09-27T18:59:30.619+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-27T18:59:31.059+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-27T18:59:31.111+07:00  WARN 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-27T18:59:31.878+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-27T18:59:31.950+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    alter table if exists menus 
+       alter column price set data type numeric(38,2)
+Hibernate: 
+    alter table if exists menus 
+       alter column price set data type numeric(38,2)
+2026-09-27T18:59:31.960+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-27T18:59:32.954+07:00  WARN 4084 --- [grabfood-menu-service] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-27T18:59:33.735+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.MenuCacheEvictTest     : Started MenuCacheEvictTest in 5.768 seconds (process running for 7.412)
+2026-09-27T18:59:34.326+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:34.327+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 1] Nhận yêu cầu cập nhật món ăn id: 1
+2026-09-27T18:59:34.327+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 2] Đang cập nhật vào DATABASE trước...
+2026-09-27T18:59:34.391+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+2026-09-27T18:59:34.410+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 2 - XONG] Đã lưu vào CSDL thành công: Tên = 'Phở Bò', Giá = 55000
+2026-09-27T18:59:34.410+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 3] @CacheEvict kích hoạt: Xóa key 'menuCache::1' khỏi Redis
+2026-09-27T18:59:34.410+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:35.021+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [DATABASE QUERY] Đang truy vấn CSDL lấy thông tin món ăn id: 1
+2026-09-27T18:59:35.025+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+>>> [TRƯỚC KHI UPDATE] Cache trong Redis: {"@class":"com.grabfood.menu.entity.Menu","id":1,"price":["java.math.BigDecimal",55000.00],"dish_name":"Phở Bò"}
+2026-09-27T18:59:35.090+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:35.091+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 1] Nhận yêu cầu cập nhật món ăn id: 1
+2026-09-27T18:59:35.091+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 2] Đang cập nhật vào DATABASE trước...
+2026-09-27T18:59:35.091+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+2026-09-27T18:59:35.092+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 2 - XONG] Đã lưu vào CSDL thành công: Tên = 'Phở Bò Đặc Biệt', Giá = 75000
+2026-09-27T18:59:35.093+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [BƯỚC 3] @CacheEvict kích hoạt: Xóa key 'menuCache::1' khỏi Redis
+2026-09-27T18:59:35.093+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : ========================================================================
+2026-09-27T18:59:35.109+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    update
+        menus 
+    set
+        dish_name=?,
+        price=? 
+    where
+        id=?
+Hibernate: 
+    update
+        menus 
+    set
+        dish_name=?,
+        price=? 
+    where
+        id=?
+>>> [SAU KHI UPDATE] Cache trong Redis: null (ĐÃ BỊ XÓA THÀNH CÔNG)
+2026-09-27T18:59:35.119+07:00  INFO 4084 --- [grabfood-menu-service] [    Test worker] com.grabfood.menu.service.MenuService    : >>> [DATABASE QUERY] Đang truy vấn CSDL lấy thông tin món ăn id: 1
+2026-09-27T18:59:35.119+07:00 DEBUG 4084 --- [grabfood-menu-service] [    Test worker] org.hibernate.SQL                        : 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+Hibernate: 
+    select
+        m1_0.id,
+        m1_0.dish_name,
+        m1_0.price 
+    from
+        menus m1_0 
+    where
+        m1_0.id=?
+>>> [NẠP LẠI CACHE] Cache mới trong Redis: {"@class":"com.grabfood.menu.entity.Menu","id":1,"price":["java.math.BigDecimal",75000.00],"dish_name":"Phở Bò Đặc Biệt"}
+]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (C:\Users\Admin\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.14.19\154da3a65b4f4a909d3e5bdec55d1b2b4cbb6ce1\byte-buddy-agent-1.14.19.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
